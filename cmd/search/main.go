@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net"
@@ -59,7 +60,10 @@ func runServer() {
 func GetSites(writer http.ResponseWriter, request *http.Request) {
 	writer.Header().Set("Content-Type", "application/json")
 	var requestBody GetSitesRequest
-	err := json.NewDecoder(request.Body).Decode(&requestBody)
+	// buffer := make([]byte, 1024)
+	// json.Unmarshal(buffer[GetBody(request)], &requestBody)
+	r := io.Read
+	err := json.NewDecoder(GetBody(request)).Decode(&requestBody)
 	if err != nil {
 		fmt.Print("Error decoding request body", err)
 	}
