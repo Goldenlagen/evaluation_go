@@ -1,0 +1,3 @@
+build:
+	echo "Deploying app"
+	go build -o . ./...
