@@ -6,6 +6,10 @@ import (
 	"net"
 )
 
+func handleCrawlerAction(action string) {
+
+}
+
 func crawler(conn net.Conn) {
 	conn.Write([]byte("This is Crawler"))
 

@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
@@ -57,15 +58,24 @@ func runServer() {
 
 func GetSites(writer http.ResponseWriter, request *http.Request) {
 	writer.Header().Set("Content-Type", "application/json")
-	requestBody := GetSitesRequest{}
+	var requestBody GetSitesRequest
 	err := json.NewDecoder(request.Body).Decode(&requestBody)
 	if err != nil {
-		fmt.Println("Error decoding request body")
+		fmt.Print("Error decoding request body", err)
 	}
 
-	fmt.Print("Body : ", requestBody)
+	fmt.Print("Body : ", requestBody.query)
 }
 
 func PostSites(writer http.ResponseWriter, request *http.Request) {}
 
 func GetFiles(writer http.ResponseWriter, request *http.Request) {}
+
+func GetBody(r *http.Request) []byte {
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Panic(err)
+	}
+	log.Println(string(body))
+	return body
+}
